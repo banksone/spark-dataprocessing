@@ -1,7 +1,7 @@
 # spark-dataprocessing
 
 The example bases on docker container you can easly start using included docker-compose.yml
-Docker will start master service and as many worker services you declare.
+Docker will start Apache Spark v3 with master service and as many worker services you declare.
 
 ```
 docker-compose up --scale spark-worker=3
