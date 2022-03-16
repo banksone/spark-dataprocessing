@@ -9,3 +9,9 @@ docker-compose up --scale spark-worker=3
 
 Current directory will be accessible from docker container under path: /app_data.
 Any application jar or data file will be visible there.
+
+Execute command below in order to login to master container.
+```
+docker exec -it spark-test_spark_1 /bin/bash
+```
+
