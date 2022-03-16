@@ -12,6 +12,11 @@ Any application jar or data file will be visible there.
 
 Execute command below in order to login to master container.
 ```
-docker exec -it spark-test_spark_1 /bin/bash
+docker exec -it spark-dataprocessing_spark_1 /bin/bash
+```
+If you used another directory name for the project check correct name of the container:
+
+```
+docker container ps
 ```
 
