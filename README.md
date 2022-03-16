@@ -1,6 +1,9 @@
 # spark-dataprocessing (project inprogress)
 
-The example bases on docker container you can easly start using included docker-compose.yml
+Apache Spark is a mass data-processing and mass-calculation tool. Its strength lies in seamless clustering and in-memory processing.
+Apache Spark is used by Netflix for ETL, feature generation, model training, and validation effectively preparing personalized recommendations (according to Databricks.com)
+
+The example is based on Docker container, you can easily start using included docker-compose.yml
 Docker will start Apache Spark v3 with master service and as many worker services as you declare.
 
 ```
