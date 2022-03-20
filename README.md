@@ -5,6 +5,7 @@ Apache Spark is used by Netflix for ETL, feature generation, model training, and
 
 The example is based on Docker container, you can easily start using included docker-compose.yml
 Docker will start Apache Spark v3 with master service and as many worker services as you declare.
+Additionally there will be started three-node cluster of Apache Cassandra nosql database (albo used by NETFLIX) and a JAVA node (alpine linux) ready to provide Java Spring Boot REST services we will build in the project 'java-example-services' https://github.com/banksone/java-example-services
 
 ```
 docker-compose up --scale spark-worker=3
