@@ -14,6 +14,14 @@ docker-compose up --scale spark-worker=3
 Current directory will be accessible from docker container under path: /app_data.
 Any application jar or data file will be visible there.
 
+Spark task source will be compiled and assembled with maven into fat-jar - including all dependences. 
+
+```
+mvn package
+```
+
+Apache Spark should run binaries comiled with JDK 8 and 11 (what I haven't succided yet with the later one)
+
 Execute command below in order to login to master container.
 ```
 docker exec -it spark-dataprocessing_spark_1 /bin/bash
@@ -24,3 +32,8 @@ If you used another directory name for the project check correct name of the con
 docker container ps
 ```
 
+Once we login to containers shell we can submit our Spark task
+
+```
+spark-submit --class com.banksone.MoviesTasks --master local[4] ./spark-vod-tasks-jar-with-dependencies.jar
+```
