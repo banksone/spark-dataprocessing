@@ -1,4 +1,4 @@
-version: '2'
+version: "3.3"
 
 services:
   spark:
@@ -12,7 +12,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     ports:
-      - '8080:8080'
+      - '18080:8080'
   spark-worker:
     image: docker.io/bitnami/spark:3
     environment:
@@ -24,3 +24,63 @@ services:
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
+      
+  java:
+    image: openjdk:15-alpine
+    volumes:
+      - .:/app_data
+    command: "java -jar /app_data/services-0.0.1-SNAPSHOT.jar > /app_data/java.log"
+    ports:
+      - '9080:8080'
+      
+  cass_seedprovider:
+    image: cassandra:4
+    ports:
+      - "9042:9042"
+    volumes:
+      - "cass_store_seedprovider:/var/lib/cassandra"
+    environment:
+      - "CASSANDRA_SEEDS=cass_seedprovider"
+      - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_DC=datacenter1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=200M
+
+  cass_node_1:
+    image: cassandra:4
+    volumes:
+      - "cass_store_1:/var/lib/cassandra"
+    depends_on:
+      - cass_seedprovider
+    environment:
+      - "CASSANDRA_SEEDS=cass_seedprovider"
+      - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_DC=datacenter1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=200M
+
+
+  cass_node_2:
+    image: cassandra:4
+    volumes:
+      - "cass_store_2:/var/lib/cassandra"
+    depends_on:
+      - cass_seedprovider
+    environment:
+      - "CASSANDRA_SEEDS=cass_seedprovider"
+      - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_DC=datacenter1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=200M
+
+
+volumes:
+  cass_store_seedprovider:
+    driver: local
+  cass_store_1:
+    driver: local
+  cass_store_2:
+    driver: local
