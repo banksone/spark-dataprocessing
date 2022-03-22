@@ -35,5 +35,27 @@ docker container ps
 Once we login to containers shell we can submit our Spark task
 
 ```
-spark-submit --class com.banksone.MoviesTasks --master local[4] ./spark-vod-tasks-jar-with-dependencies.jar
+spark-submit --class com.banksone.MoviesTasks --master spark://spark:7077 ./spark-vod-tasks-jar-with-dependencies.jar
+```
+
+# DATA
+Let's see how the data can be imported
+
+Movies database for now consists of one table named 'movies'. It contains a few columns storing lists of UDTs (User Defined Types).
+That's nothing complex - the first contains two fields: 'id' and 'name'.
+
+Using CQL we can insert such a object easily: 
+
+```
+insert into movies (id, genres) values (999, [{id:'28',name:'Action'}, {id:'12', name:'Adventure'}]);
+```
+
+As you can see this is actually a JSON except there is a catch. We have to keep in mind field names must not be quoted. If so interpreter throw an exception assuming be are creating list of map objects. 
+What is, of course, not true here as we provided a UDT type for the column - so we end up with an error.
+
+Ok let's move to import more data. For now, we are going to try simple way and import a csv file. Content of the file have to be consistent with UDTs we set in the table as the types.
+
+We have to log into cassandra master container 'cass_seedprovider'. Next start cqlsh and run script prepared to create KEYSPACE.
+```
+COPY vod.movies (budget,genres,homepage,id,keywords,original_language,original_title,overview,popularity,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,vote_average,vote_count) FROM './tmdb_5000_movies_2.csv' WITH HEADER = TRUE AND DELIMITER = '|';
 ```

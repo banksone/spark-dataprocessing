@@ -39,6 +39,7 @@ services:
       - "9042:9042"
     volumes:
       - "cass_store_seedprovider:/var/lib/cassandra"
+      - .:/app_data
     environment:
       - "CASSANDRA_SEEDS=cass_seedprovider"
       - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
