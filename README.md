@@ -20,7 +20,7 @@ Spark task source will be compiled and assembled with maven into fat-jar - inclu
 mvn package
 ```
 
-Apache Spark should run binaries comiled with JDK 8 and 11 (what I haven't succided yet with the later one)
+Apache Spark should run binaries compiled with JDK 8 and 11 (what I haven't succeeded yet with the later one)
 
 Execute command below in order to login to master container.
 ```
