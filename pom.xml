@@ -33,6 +33,13 @@
 			<version>4.0.0</version>
 			<type>pom</type>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.datastax.oss/native-protocol -->
+		<dependency>
+			<groupId>com.datastax.oss</groupId>
+			<artifactId>native-protocol</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
 
 
 	</dependencies>

@@ -35,7 +35,7 @@ docker container ps
 Once we login to containers shell we can submit our Spark task
 
 ```
-spark-submit --class com.banksone.MoviesTasks --master spark://spark:7077 ./spark-vod-tasks-jar-with-dependencies.jar
+spark-submit --class com.banksone.MoviesRDDTask --master spark://spark:7077 ./spark-vod-tasks-jar-with-dependencies.jar
 ```
 
 # DATA
