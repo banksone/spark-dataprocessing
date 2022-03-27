@@ -1,8 +1,12 @@
 package com.banksone;
 
+import org.apache.spark.api.java.function.ReduceFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
+import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.sum;
 
 import java.io.Serializable;
 
@@ -14,14 +18,23 @@ public class MoviesDatasetTask implements Serializable {
         Dataset<Row> moviesDataset = spark.read()
                 .format("org.apache.spark.sql.cassandra")
                 .option("keyspace", "vod")
-                .option("table", "movies")
-                .option("spark.cassandra.connection.host", "cass_seedprovider")
+                .option("table", "movies_stats")
+                .option("spark.cassandra.connection.host", "cass_seedprovider,cass_node_1,cass_node_2")
                 .option("spark.cassandra.connection.port", "9042")
                 .load();
 
-        //Dataset<String> titles = moviesDataset.map((Row movie) -> movie.title, Encoders.STRING());
-        Row row = moviesDataset.first();
-//        System.out.println("title: " + row.<String>getAs("title"));
+
+        moviesDataset
+                .where("budget > 100")
+                .agg(sum("budget").as("budget"))
+                .write()
+                .format("org.apache.spark.sql.cassandra")
+                .option("spark.cassandra.connection.host", "cass_seedprovider,cass_node_1,cass_node_2")
+                .option("spark.cassandra.connection.port", "9042")
+                .option("table", "movies_stats")
+                .option("keyspace", "vod")
+                .mode("append")
+                .save();
 
         spark.stop();
     }

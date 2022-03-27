@@ -39,6 +39,11 @@ CREATE TABLE  IF NOT EXISTS vod.movies (
 	vote_count bigint
 );
 
+
+CREATE TABLE  IF NOT EXISTS vod.movies_stats (
+	budget bigint PRIMARY KEY,
+);
+
 ---CREATE TABLE vod.sessions (
 ---    employee_age int,
 ---    company_name text,
