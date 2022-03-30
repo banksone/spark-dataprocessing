@@ -48,5 +48,5 @@ Ok, let's move to import more data. For now, we are going to try a simple way an
 We have to log into Cassandra's master container 'cass_seedprovider'. Next, start cqlsh and run the script prepared to create KEYSPACE.
 
 ```
-COPY vod.movies (budget,genres,homepage,id,keywords,original_language,original_title,overview,popularity,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,vote_average,vote_count) FROM './tmdb_5000_movies_2.csv' WITH HEADER = TRUE AND DELIMITER = '|';
+COPY vod.movies (budget,genres,homepage,id,keywords,original_language,original_title,overview,popularity,production_companies,production_countries,release_date,revenue,runtime,spoken_languages,status,tagline,title,vote_average,vote_count) FROM './test_tmdb_movies.csv' WITH HEADER = TRUE AND DELIMITER = '|';
 ```
