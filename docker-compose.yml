@@ -25,6 +25,15 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
       
+  apache:
+    image: docker.io/httpd:2.4-alpine
+    ports:
+      - '9099:80'
+    volumes:
+      - ./public:/usr/local/apache2/htdocs/
+      - ./apache/boc-httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./apache/site.conf:/usr/local/apache2/conf/extra/site.conf
+
   java:
     image: openjdk:15-alpine
     volumes:
@@ -43,6 +52,7 @@ services:
     environment:
       - "CASSANDRA_SEEDS=cass_seedprovider"
       - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_RPC_ADDRESS=cass_seedprovider"
       - "CASSANDRA_DC=datacenter1"
       - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
       - MAX_HEAP_SIZE=2G
@@ -57,6 +67,7 @@ services:
     environment:
       - "CASSANDRA_SEEDS=cass_seedprovider"
       - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_RPC_ADDRESS=cass_node_1"
       - "CASSANDRA_DC=datacenter1"
       - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
       - MAX_HEAP_SIZE=2G
@@ -72,6 +83,7 @@ services:
     environment:
       - "CASSANDRA_SEEDS=cass_seedprovider"
       - "CASSANDRA_CLUSTER_NAME=Movies Example Cluster"
+      - "CASSANDRA_RPC_ADDRESS=cass_node_2"
       - "CASSANDRA_DC=datacenter1"
       - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
       - MAX_HEAP_SIZE=2G
